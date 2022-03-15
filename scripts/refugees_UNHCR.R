@@ -6,7 +6,7 @@
 
 
 library(pacman)
-p_load ('rjson', 'jsonlite','plyr', 'tidyr', 'dplyr', 'ggplot2', 'googlesheets4', 'DatawRappr')
+p_load ('jsonlite', 'tidyr', 'dplyr', 'ggplot2', 'DatawRappr')
 
 
 # 1. Get the data
