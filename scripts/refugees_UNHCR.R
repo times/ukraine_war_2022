@@ -23,13 +23,13 @@ stand_first <- paste0("Around ", round(sum(as.numeric(final$refugees))/1000000,1
                       " million refugees have fled Ukraine since Russia’s invasion")
 
 final.2 <- final%>%
-  filter(!country %in% c("Russian Federation", "Other European countries"))
+  filter(!country %in% c("Other European countries"))
 
 # 3. Update DW chart
-dw_data_to_chart(final.2, chart_id = "Ss76u")
+dw_data_to_chart(final.2, chart_id = "3Cj1b")
 # Tweak stand if needed
-dw_edit_chart(chart_id = "Ss76u", intro = stand_first, annotate = paste("Data as of",gsub(" "," ",format(Sys.Date(),"%b %d"))))
-dw_publish_chart(chart_id = "Ss76u")
+dw_edit_chart(chart_id = "3Cj1b", intro = stand_first, annotate = paste("Data as of",gsub(" "," ",format(Sys.Date(),"%b %d"))))
+dw_publish_chart(chart_id = "3Cj1b")
 
 
 # ---------------------------------------------------------------------------------------------
