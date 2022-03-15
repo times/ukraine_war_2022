@@ -43,7 +43,8 @@ jobs:
           DW_TOKEN: ${{ secrets.DW_ACTIONS }}
           ACTIONSGOOGLE_PASSWORD: ${{ secrets.ACTIONSGOOGLE_PASSWORD }}
           #DW_TOKEN: ${{ secrets.DW_ACTIONS }}
-        run: R -e 'renv::run("./scripts/refugees_UNHCR.R")'
+        #run: R -e 'renv::run("./scripts/refugees_UNHCR.R")'
+        run: source("./scripts/refugees_UNHCR.R")
         
       
       - name: Commit files # Commit changes
