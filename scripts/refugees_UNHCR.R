@@ -9,6 +9,10 @@ library(pacman)
 p_load ('jsonlite', 'tidyr', 'dplyr', 'ggplot2', 'DatawRappr')
 
 
+# Set up Datawrapper for Github actions
+dwapikey <- Sys.getenv("DW_TOKEN")
+datawrapper_auth(api_key = dwapikey)
+
 # 1. Get the data
 data_raw <- fromJSON('https://data2.unhcr.org/population/get/sublocation?widget_id=283408&sv_id=54&population_group=5459,5460&forcesublocation=0&fromDate=1900-01-01')
 data <- data_raw$data 
