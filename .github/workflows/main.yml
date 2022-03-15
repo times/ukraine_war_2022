@@ -1,0 +1,54 @@
+name: Update-data
+on:
+  workflow_dispatch:
+
+env:
+  GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+  RENV_PATHS_ROOT: ~/.local/share/renv
+
+
+jobs:
+  generate-data:
+    runs-on: ubuntu-latest
+    container: docker://ade711/dads_r_v1:latest
+    steps:
+      - uses: actions/checkout@v2 # Checkout branch into the runner
+      
+      - name: Setup R
+        uses: r-lib/actions/setup-r@master # Set up R runtime
+  
+
+        # Set-up Dependencies
+      - name: Set up dependencies
+        run: |
+          R -e 'install.packages("renv")'
+          R -e 'install.packages("usethis")'
+          #R -e 'renv::restore()'
+      
+      - name: Cache packages
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.RENV_PATHS_ROOT }}
+          key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-renv-
+      - name: Restore packages
+        shell: Rscript {0}
+        run: |
+          if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
+          renv::restore()
+  
+      - name: Run scripts # Run the script
+        env:
+          DW_TOKEN: ${{ secrets.DW_ACTIONS }}
+          ACTIONSGOOGLE_PASSWORD: ${{ secrets.ACTIONSGOOGLE_PASSWORD }}
+          #DW_TOKEN: ${{ secrets.DW_ACTIONS }}
+        run: R -e 'renv::run("refugees_UNHCR.R")'
+        
+      
+      - name: Commit files # Commit changes
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add .
+          git diff-index --quiet HEAD || (git commit -m "update data" && git push)
