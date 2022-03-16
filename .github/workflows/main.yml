@@ -1,7 +1,7 @@
 name: Update-data
 on:
   schedule:
-    - cron: "0 9,18 * * *"
+    - cron: "00 11,17 * * *"
   workflow_dispatch:
 
 env:

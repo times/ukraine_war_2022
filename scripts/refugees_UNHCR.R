@@ -21,7 +21,14 @@ data <- data_raw$data
 # 2. Clean the data: unnest your list --> select relevant columns --> rename
 final <- data%>%
   select(1,4,5,11,18)%>%
-  dplyr::rename(country=c(1), lon=c(2), lat=c(3), date=c(4), refugees=c(5))
+  dplyr::rename(country=c(1), lon=c(2), lat=c(3), date=c(4), refugees=c(5))%>%
+  mutate(country = case_when(country == "Republic of Moldova" ~ "Moldova",
+                             country == "Russian Federation" ~ "Russia",
+         TRUE ~ country)
+         )
+
+final[nrow(final) + 1,] = c("Ukraine","", "", "", 0)
+
 
 stand_first <- paste0("Around ", round(sum(as.numeric(final$refugees))/1000000,1),
                       " million refugees have fled Ukraine since Russia’s invasion")
@@ -30,10 +37,12 @@ final.2 <- final%>%
   filter(!country %in% c("Other European countries"))
 
 # 3. Update DW chart
-dw_data_to_chart(final.2, chart_id = "3Cj1b")
+dw_data_to_chart(final.2, chart_id = "tk3uZ")
 # Tweak stand if needed
-dw_edit_chart(chart_id = "3Cj1b", intro = stand_first, annotate = paste("Data as of",gsub(" "," ",format(Sys.Date(),"%b %d"))))
-dw_publish_chart(chart_id = "3Cj1b")
+dw_edit_chart(chart_id = "tk3uZ", intro = stand_first, 
+              annotate = paste("More than 300,000 refugees are said to have fled to other EU countries.
+ <br> Data as of",gsub(" "," ",format(Sys.time(),"%b %d %I:%M%p"))))
+dw_publish_chart(chart_id = "tk3uZ")
 
 
 # ---------------------------------------------------------------------------------------------
