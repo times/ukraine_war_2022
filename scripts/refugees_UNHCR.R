@@ -40,7 +40,7 @@ final.2 <- final%>%
 dw_data_to_chart(final.2, chart_id = "tk3uZ")
 # Tweak stand if needed
 dw_edit_chart(chart_id = "tk3uZ", intro = stand_first, 
-              annotate = paste("More than 300,000 refugees are said to have fled to other EU countries.
+              annotate = paste("Thousands of refugees have also fled to other EU countries.
  <br> Data as of",gsub(" "," ",format(Sys.time(),"%b %d %I:%M%p"))))
 dw_publish_chart(chart_id = "tk3uZ")
 
